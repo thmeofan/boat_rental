@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "304823951236",
+    "project_id": "boat-rental-123",
+    "storage_bucket": "boat-rental-123.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:304823951236:android:13bd304b3e9632d6d087d1",
+        "android_client_info": {
+          "package_name": "com.diowa.boat.prod"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyVFadDEQoaq5fTJejDxZX5tR5oCT4B3A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
