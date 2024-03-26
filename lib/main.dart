@@ -1,3 +1,4 @@
+import 'package:boat/consts/app_colors.dart';
 import 'package:boat/util/app_routes.dart';
 import 'package:boat/util/shared_pref_service.dart';
 import 'package:boat/views/app/views/screen_new.dart';
@@ -30,8 +31,11 @@ Future<void> main() async {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             home: Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
+              body: Container(
+                color: AppColors.brownColor,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
               ),
             ),
           );

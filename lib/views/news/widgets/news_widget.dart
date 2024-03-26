@@ -66,7 +66,7 @@ class NewsWidget extends StatelessWidget {
                             spacing: 6,
                             children: [
                               Container(
-                                padding: EdgeInsets.all(8),
+                                padding: EdgeInsets.all(5),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   color: AppColors.brownColor,
@@ -81,7 +81,7 @@ class NewsWidget extends StatelessWidget {
                         ],
                       ),
                       SizedBox(
-                        height: screenSize.height * 0.02,
+                        height: screenSize.height * 0.005,
                       ),
                       Text(
                         newsModel.title,
@@ -91,7 +91,7 @@ class NewsWidget extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       SizedBox(
-                        height: screenSize.height * 0.01,
+                        height: screenSize.height * 0.005,
                       ),
                     ],
                   ),
