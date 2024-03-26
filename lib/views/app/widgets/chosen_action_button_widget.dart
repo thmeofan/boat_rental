@@ -4,11 +4,16 @@ import '../../../consts/app_colors.dart';
 import '../../../consts/app_text_styles/onboarding_text_style.dart';
 
 class ChosenActionButton extends StatelessWidget {
-  const ChosenActionButton(
-      {super.key, required this.text, required this.onTap});
+  const ChosenActionButton({
+    Key? key,
+    required this.text,
+    required this.onTap,
+    this.backgroundColor = AppColors.peachColor,
+  }) : super(key: key);
 
   final String text;
   final Function() onTap;
+  final Color backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +30,7 @@ class ChosenActionButton extends StatelessWidget {
         child: TextButton(
           onPressed: onTap,
           style: TextButton.styleFrom(
-            backgroundColor: AppColors.greenColor,
+            backgroundColor: backgroundColor,
             padding: const EdgeInsets.symmetric(vertical: 5),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),

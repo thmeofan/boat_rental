@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../../consts/app_colors.dart';
+import '../../../consts/app_text_styles/settings_text_style.dart';
 import '../../../data/model/news_model.dart';
 import '../widgets/news_widget.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class NewsScreen extends StatelessWidget {
   const NewsScreen({super.key, required this.newsModel});
@@ -10,28 +12,29 @@ class NewsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
         appBar: AppBar(
-          centerTitle: true,
-        //  backgroundColor: AppColors.blackColor,
+          leading: IconButton(
+            color: AppColors.greenColor,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: SvgPicture.asset(
+              'assets/icons/back.svg',
+              color: AppColors.peachColor,
+            ),
+          ),
+          backgroundColor: AppColors.brownColor,
+          title: const Text(
+            'Back',
+            style: SettingsTextStyle.back,
+          ),
         ),
         body: Container(
-         // color: AppColors.blackColor,
+          color: AppColors.brownColor,
           child: Column(children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: size.height * 0.018),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    'News',
-                 //   style: SynopsisTextStyle.screenTitle,
-                  ),
-                ],
-              ),
-            ),
             Expanded(
               child: ListView.builder(
                 itemCount: newsModel.length,
@@ -41,7 +44,7 @@ class NewsScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: size.height * 0.01,
+              height: screenSize.height * 0.01,
             ),
           ]),
         ));

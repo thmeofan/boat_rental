@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../app_colors.dart';
 
 class HomeScreenTextStyle {
@@ -19,18 +18,28 @@ class HomeScreenTextStyle {
     fontFamily: 'Roboto',
     fontSize: 18.0,
     fontWeight: FontWeight.w500,
-    color: AppColors.greenColor,
+    color: AppColors.peachColor,
   );
   static const TextStyle name = TextStyle(
       fontFamily: 'Roboto',
       fontSize: 20.0,
       fontWeight: FontWeight.w700,
       color: Colors.white);
-  static const TextStyle type = TextStyle(
+  static const TextStyle typePerfect = TextStyle(
       fontFamily: 'Roboto',
       fontSize: 18.0,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w400,
       color: AppColors.greenColor);
+  static const TextStyle typeAverage = TextStyle(
+      fontFamily: 'Roboto',
+      fontSize: 18.0,
+      fontWeight: FontWeight.w400,
+      color: AppColors.orangeColor);
+  static const TextStyle typeBad = TextStyle(
+      fontFamily: 'Roboto',
+      fontSize: 18.0,
+      fontWeight: FontWeight.w400,
+      color: AppColors.redColor);
   static const TextStyle restock = TextStyle(
       fontFamily: 'Roboto',
       fontSize: 14.0,
@@ -41,9 +50,22 @@ class HomeScreenTextStyle {
       fontSize: 14.0,
       fontWeight: FontWeight.w500,
       color: Colors.grey);
-  static const TextStyle products = TextStyle(
-      fontFamily: 'Roboto',
-      fontSize: 14.0,
-      fontWeight: FontWeight.w500,
-      color: Colors.white);
+  static TextStyle info = const TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 16.0,
+    fontWeight: FontWeight.w300,
+    color: AppColors.peachColor,
+  );
+  static TextStyle emptyTitle = const TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 18.0,
+    fontWeight: FontWeight.w400,
+    color: AppColors.peachColor,
+  );
+  static TextStyle emptySubtitle = const TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 16.0,
+    fontWeight: FontWeight.w200,
+    color: Colors.white,
+  );
 }

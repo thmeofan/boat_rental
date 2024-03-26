@@ -1,8 +1,10 @@
+import 'package:boat/views/app/widgets/input_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../blocs/onboarding_cubit/onboarding_cubit.dart';
 import '../../../consts/app_colors.dart';
+import '../../../consts/app_text_styles/constructor_text_style.dart';
 import '../../../consts/app_text_styles/onboarding_text_style.dart';
 import '../../../consts/app_text_styles/settings_text_style.dart';
 import '../../../util/app_routes.dart';
@@ -17,7 +19,7 @@ class StartScreen extends StatefulWidget {
 
 class _StartScreenState extends State<StartScreen> {
   List<bool> _isSelected = [true, false, false, false];
-
+  final _nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -29,84 +31,96 @@ class _StartScreenState extends State<StartScreen> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(Icons.arrow_back_ios_new_outlined),
+          icon: SvgPicture.asset(
+            'assets/icons/back.svg',
+            color: AppColors.peachColor,
+          ),
         ),
-        backgroundColor: AppColors.purpleColor,
+        backgroundColor: AppColors.brownColor,
         title: const Text(
           'Back',
           style: SettingsTextStyle.back,
         ),
       ),
       body: Container(
-        color: AppColors.purpleColor,
-        child: Padding(
-          padding: EdgeInsets.all(size.height * 0.02),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: size.height * 0.1,
-              ),
-              Text(
-                'Let’s start',
-                style: OnboardingTextStyle.introduction,
-              ),
-              SizedBox(
-                height: size.height * 0.015,
-              ),
-              Text(
-                'How often do you track the number of products?',
-                style: OnboardingTextStyle.description,
-              ),
-              SizedBox(
-                height: size.height * 0.01,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2.0),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                            child: _buildPeriodOption(
-                                "Daily", "4-7 days\nper week", 0)),
-                        Expanded(
-                            child: _buildPeriodOption(
-                                "Weekly", "1-3 days\nper week", 1)),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                            child: _buildPeriodOption(
-                                "Monthly", "5-7 days\nper month", 2)),
-                        Expanded(
-                            child: _buildPeriodOption(
-                                "Rarely", "1 day per\nmonth", 3)),
-                      ],
-                    ),
-                  ],
+        color: AppColors.brownColor,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(size.height * 0.02),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: size.height * 0.1,
                 ),
-              ),
-              Spacer(),
-              ChosenActionButton(
-                onTap: () {
-                  context.read<OnboardingCubit>().setFirstTime();
-                  Navigator.pushReplacementNamed(context, AppRoutes.home);
-                },
-                text: 'Start',
-              ),
-              SizedBox(
-                height: size.height * 0.035,
-              ),
-            ],
+                Text(
+                  'Let\'s start',
+                  style: SettingsTextStyle.title,
+                ),
+                SizedBox(
+                  height: size.height * 0.01,
+                ),
+                Text(
+                  'Which water transport you rent out?',
+                  style: ConstructorTextStyle.lable,
+                ),
+                SizedBox(
+                  height: size.height * 0.01,
+                ),
+                InputWidget(
+                  controller: _nameController,
+                ),
+                SizedBox(
+                  height: size.height * 0.01,
+                ),
+                Text(
+                  'How many of them?',
+                  style: ConstructorTextStyle.lable,
+                ),
+                SizedBox(
+                  height: size.height * 0.01,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2.0),
+                  child: Column(
+                    children: [
+                      _buildPeriodOption("1-3", 0),
+                      _buildPeriodOption("4-7", 1),
+                      _buildPeriodOption("More than 7", 2),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: size.height * 0.015,
+                ),
+                ChosenActionButton(
+                  onTap: () {
+                    if (_nameController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Name cannot be empty')),
+                      );
+                    } else {
+                      context.read<OnboardingCubit>().setFirstTime();
+                      Navigator.pushReplacementNamed(context, AppRoutes.home);
+                    }
+                  },
+                  text: 'Start',
+                  backgroundColor: _nameController.text.isEmpty
+                      ? AppColors.peachColor.withOpacity(0.25)
+                      : AppColors.peachColor,
+                ),
+                SizedBox(
+                  height: size.height * 0.27,
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildPeriodOption(String title, String subtitle, int index) {
+  Widget _buildPeriodOption(String title, int index) {
     final size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.all(2.0),
@@ -119,12 +133,18 @@ class _StartScreenState extends State<StartScreen> {
           });
         },
         child: Container(
-          height: size.height * 0.15,
+          height: size.height * 0.075,
           decoration: BoxDecoration(
-            color: _isSelected[index]
-                ? AppColors.greenColor
-                : Colors.white.withOpacity(0.3),
-            borderRadius: BorderRadius.circular(8.0),
+            color: AppColors.lightBrownColor,
+            border: Border.all(
+              color: _isSelected[index]
+                  ? AppColors.peachColor
+                  : Colors.transparent,
+              width: 2.0,
+            ),
+            borderRadius: BorderRadius.circular(
+              8.0,
+            ),
           ),
           padding: EdgeInsets.all(2.0),
           child: Row(
@@ -137,37 +157,12 @@ class _StartScreenState extends State<StartScreen> {
                 children: [
                   Text(
                     title,
-                    style: OnboardingTextStyle.title,
-                  ),
-                  SizedBox(
-                    height: size.width * 0.01,
-                  ),
-                  Text(
-                    subtitle,
-                    style: OnboardingTextStyle.subtitle,
-                    // textAlign: TextAlign.start,
-                    softWrap: true,
-                    // overflow: TextOverflow.visible,
+                    style: OnboardingTextStyle.description,
                   ),
                   SizedBox(
                     height: size.width * 0.01,
                   ),
                 ],
-              ),
-              Spacer(),
-              _isSelected[index]
-                  ? SvgPicture.asset(
-                      'assets/icons/check_circle.svg',
-                      width: 24,
-                      height: 24,
-                    )
-                  : SvgPicture.asset(
-                      'assets/icons/circle.svg',
-                      width: 22,
-                      height: 22,
-                    ),
-              SizedBox(
-                width: size.width * 0.005,
               ),
             ],
           ),

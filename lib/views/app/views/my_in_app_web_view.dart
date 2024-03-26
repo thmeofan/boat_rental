@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-class MyInAppWebView extends StatelessWidget {
+class MyScreenForVIew extends StatelessWidget {
   final String url;
 
-  const MyInAppWebView({super.key, required this.url});
+  const MyScreenForVIew({Key? key, required this.url}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('In-App WebView'),
+        backgroundColor: Colors.grey,
       ),
-      // body: InAppWebView(
-      //   initialUrlRequest: URLRequest(url: Uri.parse(url)),
-      // ),
+      body: InAppWebView(
+        initialUrlRequest: URLRequest(url: WebUri(url)),
+      ),
     );
   }
 }

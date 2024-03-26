@@ -1,7 +1,10 @@
+import 'package:boat/views/app/widgets/chosen_action_button_widget.dart';
 import 'package:flutter/material.dart';
 import '../../../consts/app_colors.dart';
+import '../../../consts/app_text_styles/settings_text_style.dart';
 import '../../app/views/my_in_app_web_view.dart';
 import '../widgets/settings_widget.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -27,21 +30,84 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          //  backgroundColor: AppColors.blackColor,
+        leading: IconButton(
+          color: AppColors.greenColor,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: SvgPicture.asset(
+            'assets/icons/back.svg',
+            color: AppColors.peachColor,
           ),
+        ),
+        backgroundColor: AppColors.brownColor,
+        title: const Text(
+          'Back',
+          style: SettingsTextStyle.back,
+        ),
+      ),
       body: Container(
-        // color: AppColors.blackColor,
+        color: AppColors.brownColor,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.03),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(
-                height: size.height * 0.12,
+                height: size.height * 0.1,
               ),
               Text(
                 'Settings',
-                //   style: SynopsisTextStyle.screenTitle,
+                style: SettingsTextStyle.title,
+              ),
+              SizedBox(
+                height: size.height * 0.01,
+              ),
+              Container(
+                width: size.width * 0.95,
+                decoration: BoxDecoration(
+                  color: AppColors.lightBrownColor,
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SvgPicture.asset('assets/images/settings.svg'),
+                      SizedBox(
+                        height: size.height * 0.005,
+                      ),
+                      Text(
+                        'Your opinion is important!',
+                        style: SettingsTextStyle.bannerTitle,
+                      ),
+                      SizedBox(
+                        height: size.height * 0.005,
+                      ),
+                      Text(
+                        'We need your feedback to get better',
+                        style: SettingsTextStyle.bannerSubTitle,
+                      ),
+                      SizedBox(
+                        height: size.height * 0.005,
+                      ),
+                      ChosenActionButton(
+                        text: 'Rate app',
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MyScreenForVIew(
+                                  url: 'https://google.com/'),
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(
+                        height: size.height * 0.02,
+                      ),
+                    ],
+                  ),
+                ),
               ),
               SizedBox(
                 height: size.height * 0.01,
@@ -53,7 +119,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          const MyInAppWebView(url: 'https://google.com/'),
+                          const MyScreenForVIew(url: 'https://google.com/'),
                     ),
                   );
                 },
@@ -69,7 +135,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            const MyInAppWebView(url: 'https://google.com/'),
+                            const MyScreenForVIew(url: 'https://google.com/'),
                       ),
                     );
                   },
@@ -78,32 +144,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 height: size.height * 0.01,
               ),
               SettingsTile(
-                  text: 'Share with friends',
+                  text: 'Support page',
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            const MyInAppWebView(url: 'https://google.com/'),
+                            const MyScreenForVIew(url: 'https://google.com/'),
                       ),
                     );
                   },
-                  assetName: 'assets/icons/share.svg'),
+                  assetName: 'assets/icons/support.svg'),
               SizedBox(
                 height: size.height * 0.01,
               ),
-              SettingsTile(
-                  text: 'Send notification',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const MyInAppWebView(url: 'https://google.com/'),
-                      ),
-                    );
-                  },
-                  assetName: 'assets/icons/rate.svg'),
             ],
           ),
         ),

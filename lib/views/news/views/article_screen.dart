@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../consts/app_colors.dart';
 import '../../../consts/app_text_styles/news_text_style.dart';
+import '../../../consts/app_text_styles/settings_text_style.dart';
 import '../../../data/model/news_model.dart';
 
 class ArticleScreen extends StatelessWidget {
@@ -15,31 +16,28 @@ class ArticleScreen extends StatelessWidget {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        //backgroundColor: AppColors.blackColor,
-        elevation: 0,
-        titleSpacing: -5,
-        title: const Text(
-          'Back',
-          // style: SynopsisTextStyle.back,
-        ),
         leading: IconButton(
+          color: AppColors.greenColor,
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.pop(context);
           },
           icon: SvgPicture.asset(
-            'assets/icons/leading.svg',
-            width: screenSize.width * 0.04,
-            height: screenSize.width * 0.04,
-            // color: Colors.white,
+            'assets/icons/back.svg',
+            color: AppColors.peachColor,
           ),
+        ),
+        backgroundColor: AppColors.brownColor,
+        title: const Text(
+          'Back',
+          style: SettingsTextStyle.back,
         ),
       ),
       body: Container(
-        //  color: AppColors.blackColor,
+        color: AppColors.brownColor,
         child: Column(
           children: [
             SizedBox(
-              height: screenSize.height * 0.25,
+              height: screenSize.height * 0.3,
               width: screenSize.width * 0.9,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
@@ -52,10 +50,37 @@ class ArticleScreen extends StatelessWidget {
             SizedBox(
               height: screenSize.height * 0.01,
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                SizedBox(
+                  width: screenSize.width * 0.05,
+                ),
+                Wrap(
+                  spacing: 6,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.lightBrownColor,
+                      ),
+                      child: Text(
+                        newsModel.date,
+                        style: NewsTextStyle.date,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  width: screenSize.width * 0.025,
+                ),
+              ],
+            ),
             Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: screenSize.width * 0.025,
-                  vertical: screenSize.width * 0.01),
+                  vertical: screenSize.width * 0.02),
               child: Text(
                 newsModel.title,
                 style: NewsTextStyle.articleTitle,
@@ -65,18 +90,9 @@ class ArticleScreen extends StatelessWidget {
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.all(screenSize.width * 0.025),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16.0),
-                    //  color: AppColors.darkGreyColor,
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(screenSize.width * 0.025),
-                    child: Text(
-                      newsModel.text,
-                      style: NewsTextStyle.articleText,
-                    ),
-                  ),
+                child: Text(
+                  newsModel.text,
+                  style: NewsTextStyle.articleText,
                 ),
               ),
             ),

@@ -1,4 +1,4 @@
-package com.diowa.boat
+package com.diowa.boat.prod
 
 import io.flutter.embedding.android.FlutterActivity
 

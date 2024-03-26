@@ -1,15 +1,14 @@
+import 'package:boat/consts/app_colors.dart';
 import 'package:flutter/material.dart';
 import '../../../consts/app_text_styles/constructor_text_style.dart';
 
 class InputWidget extends StatelessWidget {
   final TextEditingController controller;
   final TextInputType keyboardType;
-  final String labelText;
   const InputWidget({
     Key? key,
     required this.controller,
     this.keyboardType = TextInputType.text,
-    required this.labelText,
   }) : super(key: key);
 
   @override
@@ -24,9 +23,8 @@ class InputWidget extends StatelessWidget {
         keyboardType: keyboardType,
         decoration: InputDecoration(
           filled: true,
-          fillColor: Colors.white.withOpacity(0.15),
-          labelText: labelText,
-          labelStyle: ConstructorTextStyle.lable,
+          fillColor: AppColors.lightBrownColor,
+          // labelStyle: ConstructorTextStyle.lable,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15.0),
             borderSide: BorderSide.none,

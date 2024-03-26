@@ -3,16 +3,15 @@ import 'package:flutter/material.dart';
 class OnboardingTextStyle {
   static const TextStyle introduction = TextStyle(
     fontFamily: 'Roboto',
-    fontSize: 22.0,
+    fontSize: 30.0,
     color: Colors.white,
     fontWeight: FontWeight.w600,
   );
   static TextStyle description = TextStyle(
-    fontFamily: 'Roboto',
-    fontSize: 14.0,
-    fontWeight: FontWeight.w600,
-    color: Colors.grey,
-  );
+      fontFamily: 'Roboto',
+      fontSize: 16.0,
+      fontWeight: FontWeight.w400,
+      color: Colors.white);
   static const TextStyle title = TextStyle(
     fontFamily: 'Roboto',
     fontSize: 18.0,
@@ -27,7 +26,7 @@ class OnboardingTextStyle {
   );
   static const TextStyle button = TextStyle(
     fontFamily: 'Roboto',
-    fontSize: 18.0,
+    fontSize: 17.0,
     fontWeight: FontWeight.w500,
     color: Colors.white,
   );

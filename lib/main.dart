@@ -1,67 +1,107 @@
+import 'package:boat/util/app_routes.dart';
+import 'package:boat/util/shared_pref_service.dart';
+import 'package:boat/views/app/views/screen_new.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'blocs/rental_cubit/rental_cubit.dart';
+import 'data/repository/onboarding_repository.dart';
+import 'firebase_options.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await FirebaseRemoteConfig.instance.setConfigSettings(RemoteConfigSettings(
+    fetchTimeout: const Duration(seconds: 25),
+    minimumFetchInterval: const Duration(seconds: 25),
+  ));
+
+  String privacyPolicyLink = await fetchPrivacyPolicyLink();
+  bool isFirstTime = await checkFirstLaunch();
+
+  runApp(BlocProvider(
+    create: (context) => RentalCubit(SharedPreferencesService()),
+    child: FutureBuilder(
+      future: fetchPrivacyPolicyLink(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          );
+        } else if (snapshot.hasError) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: Scaffold(
+              body: Center(
+                child: Text('Error: ${snapshot.error}'),
+              ),
+            ),
+          );
+        } else {
+          String privacyPolicyLink = snapshot.data ?? '';
+          return MyApp(
+            isFirstLaunch: isFirstTime,
+            privacyPolicyLink: privacyPolicyLink,
+          );
+        }
+      },
+    ),
+  ));
+}
+
+Future<void> initializeFirebase() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+}
+
+Future<String> fetchPrivacyPolicyLink() async {
+  FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
+  await remoteConfig.fetchAndActivate();
+  return remoteConfig.getString('fetch');
+}
+
+Future<bool> checkFirstLaunch() async {
+  bool isFirstTime = await OnboardingRepository().checkFirstTime();
+
+  return isFirstTime;
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({
+    Key? key,
+    required this.isFirstLaunch,
+    required this.privacyPolicyLink,
+  }) : super(key: key);
+
+  final bool isFirstLaunch;
+  final String privacyPolicyLink;
+
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(primarySwatch: Colors.purple),
+      onGenerateRoute: (settings) {
+        if (privacyPolicyLink.isNotEmpty && privacyPolicyLink != 'haveNoLink') {
+          return MaterialPageRoute(builder: (context) => ScreenNew());
+        } else {
+          return AppRoutes.onGenerateRoute(settings);
+        }
+      },
+      initialRoute: isFirstLaunch ? AppRoutes.welcome : AppRoutes.home,
     );
   }
 }

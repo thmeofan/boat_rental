@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import '../../../consts/app_colors.dart';
 import '../../../consts/app_text_styles/onboarding_text_style.dart';
 import '../../../util/app_routes.dart';
 import '../../app/widgets/chosen_action_button_widget.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class OnboardingScreen extends StatefulWidget {
   final bool? isFirstTime;
@@ -26,42 +28,37 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         backgroundColor: Colors.transparent,
       ),
       body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/background.png'),
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-              Colors.transparent.withOpacity(1),
-              BlendMode.dstATop,
-            ),
-          ),
-        ),
+        decoration: BoxDecoration(color: AppColors.brownColor),
         child: Padding(
           padding: EdgeInsets.all(size.height * 0.02),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Expanded(
-                // Wrap the Column with Expanded
                 child: Column(
                   children: [
                     SizedBox(
-                      height: size.height * 0.45,
+                      height: size.height * 0.1,
+                    ),
+                    SvgPicture.asset('assets/images/onboarding.svg'),
+                    SizedBox(
+                      height: size.height * 0.06,
                     ),
                     const Text(
-                      'Welcome to Profitmate - your assistant in increasing the profitability of vending machines!',
+                      'Manage your rental',
                       style: OnboardingTextStyle.introduction,
-                      textAlign: TextAlign.start,
+                      textAlign: TextAlign.center,
                       softWrap: true,
                       overflow: TextOverflow.visible,
                     ),
                     SizedBox(
-                      height: size.height * 0.02,
+                      height: size.height * 0.015,
                     ),
                     Text(
-                      'Track, analyze, and optimize your business with our convenient app',
+                      'Keep track of your water \ntransportation rentals',
                       style: OnboardingTextStyle.description,
-                      textAlign: TextAlign.start,
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
                       softWrap: true,
                       overflow: TextOverflow.visible,
                     ),
